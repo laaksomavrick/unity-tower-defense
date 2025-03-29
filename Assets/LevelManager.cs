@@ -1,28 +1,21 @@
-using System;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-
-    public static LevelManager main;
-
     public Transform startPoint;
     public Transform[] path;
+    
+    private static LevelManager _instance;
 
-    private void Awake()
+    public static LevelManager Instance
     {
-        main = this;
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindFirstObjectByType<LevelManager>();
+            }
+            return _instance;
+        }
     }
 }

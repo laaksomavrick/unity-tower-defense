@@ -1,21 +1,24 @@
-using System;
 using UnityEngine;
 
-public class EnemyMovementScript : MonoBehaviour
+public class EnemyMovement : MonoBehaviour
 {
 
     [Header("References")] [SerializeField]
-    private Rigidbody2D rb;
+    private Rigidbody2D _rb;
+    private Transform[] _path;
     
     [Header("Attributes")]
     [SerializeField] private float moveSpeed = 2f;
 
     private Transform target;
     private int pathIndex = 0;
-    
+
     void Start()
     {
-        target = LevelManager.main.path[pathIndex];
+        LevelManager levelManager = FindFirstObjectByType<LevelManager>();
+        _path = levelManager.path;
+        
+        target = _path[pathIndex];
     }
 
     void Update()
@@ -25,19 +28,19 @@ public class EnemyMovementScript : MonoBehaviour
             pathIndex++;
         }
 
-        if (pathIndex == LevelManager.main.path.Length)
+        if (pathIndex == _path.Length)
         {
            Destroy(gameObject);
            return;
         }
         
-        target = LevelManager.main.path[pathIndex];
+        target = _path[pathIndex];
     }
 
     private void FixedUpdate()
     {
         Vector2 direction = (target.position - transform.position).normalized;
         
-        rb.linearVelocity = direction * moveSpeed;
+        _rb.linearVelocity = direction * moveSpeed;
     }
 }
