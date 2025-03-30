@@ -2,13 +2,10 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-
-    [Header("References")] 
-    [SerializeField]
+    [Header("References")] [SerializeField]
     private Rigidbody2D _rb;
-    
-    [Header("Attributes")]
-    [SerializeField] 
+
+    [Header("Attributes")] [SerializeField]
     private float moveSpeed = 2f;
 
     private Transform target;
@@ -18,7 +15,7 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         LevelManager levelManager = FindFirstObjectByType<LevelManager>();
-        
+
         _path = levelManager.path;
         target = _path[pathIndex];
     }
@@ -32,17 +29,18 @@ public class EnemyMovement : MonoBehaviour
 
         if (pathIndex == _path.Length)
         {
-           Destroy(gameObject);
-           return;
+            EnemySpawner.onEnemyDestroy.Invoke();
+            Destroy(gameObject);
+            return;
         }
-        
+
         target = _path[pathIndex];
     }
 
     private void FixedUpdate()
     {
         Vector2 direction = (target.position - transform.position).normalized;
-        
+
         _rb.linearVelocity = direction * moveSpeed;
     }
 }
