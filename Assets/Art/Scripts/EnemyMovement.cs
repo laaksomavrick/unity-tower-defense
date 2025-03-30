@@ -3,21 +3,23 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
 
-    [Header("References")] [SerializeField]
+    [Header("References")] 
+    [SerializeField]
     private Rigidbody2D _rb;
-    private Transform[] _path;
     
     [Header("Attributes")]
-    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] 
+    private float moveSpeed = 2f;
 
     private Transform target;
+    private Transform[] _path;
     private int pathIndex = 0;
 
     void Start()
     {
         LevelManager levelManager = FindFirstObjectByType<LevelManager>();
-        _path = levelManager.path;
         
+        _path = levelManager.path;
         target = _path[pathIndex];
     }
 
